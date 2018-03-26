@@ -7,16 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections;
+using System.Reflection;
+using System.Media;
 using System.Text.RegularExpressions;
 
 namespace WindowsFormsApplication1
 {
     public partial class mainwindow : Form
     {
-        int ans = 0;
-
-        public string calculate(string abc)
+        static string ans = "";
+        static Stack<char> sck = new Stack<char>();
+        static equation eq = null;
+        static table tb = null;
+        static GPAmainwindow gpa = null;
+        /*public string calculate(string abc)
         {
             double result = 1;
             double fresult = 0;
@@ -57,12 +61,12 @@ namespace WindowsFormsApplication1
                     {
                         int inx = i - 1;
                         string x = "";
-                        while (inx >= 0 && IsNumber(protype[inx].ToString()))
+                        while (inx >= 0 && (IsNumber(protype[inx].ToString()) || protype[inx].Equals('.')))
                         {
                             x = protype[inx].ToString() + x;
                             inx = inx - 1;
                         }
-                        int num = int.Parse(x);
+                        double num = double.Parse(x);
                         result = num * num;
                         fresult = result;
 
@@ -75,18 +79,20 @@ namespace WindowsFormsApplication1
 
                         break;
                     }
-
+                   
                     else
                     {
                         copy += protype[i];
                         if (copy.Equals(protype))
                         {
-                            string str = protype;
+                            /*string str = protype;
                             str = operation.Calc(str, '*');
                             str = operation.Calc(str, '/');
                             str = operation.Calc(str, '+');
-                            str = operation.Calc(str, '-');
-                            fresult = double.Parse(str);
+                            str = operation.Calc(str, '-');//
+                            DataTable table = new DataTable();
+                            
+                            fresult = double.Parse(table.Compute(copy, "").ToString());
                             protype = fresult.ToString();
                             
                         }
@@ -94,18 +100,206 @@ namespace WindowsFormsApplication1
                 }                
             }
             return fresult.ToString();
+        }*/
+
+        public static double Calculate(string s)
+        {
+            double num = 0;//存储递归回来的数
+            //double result = 0;//存储结果
+            int len = s.Length;
+            string copy = "";//存储进入递归之后的字符串
+            string cal = "";//存储从栈弹出的字符串
+            int i = 0;//跟字符串s比较长度
+            while (i < len)
+            {
+                if (s[i].Equals('('))
+                {
+                    sck.Push('(');
+                    copy = s.Substring(i + 1);
+                    num = Calculate(copy);
+                    ComplexOp(num);//计算函数
+                    i = i + 1;
+                    while (i < len && !s[i].Equals(')'))
+                        i ++;
+                    i++;
+                    continue;
+                }
+                else if (!s[i].Equals(')'))
+                {
+                    sck.Push(s[i]);
+                    i++;
+                }
+                else
+                {
+                    while (sck.Peek() != '(')
+                    {
+                        cal = sck.Pop() + cal;
+                        if (!sck.Any()) break;
+                    }
+                    if(!sck.Any()) break;
+                    else sck.Pop();
+                    num = SimpleOp(cal);
+                    return num;
+                }
+            }
+            if(i == len)//当表达式带有括号时
+            {
+                string temp = "";
+                while (sck.Count > 0)
+                    temp = sck.Pop() + temp;
+                return SimpleOp(temp);
+            }       
+            return num;
         }
 
-    public static bool IsNumber(string s)
+        public static void ComplexOp(double num)
+        {
+            string cal = "";
+            double result = 0;
+            if (sck.Peek() == '^')
+            {
+                sck.Pop();
+                while (sck.Peek() != '+' && sck.Peek() != '-' && sck.Peek() != '*' && sck.Peek() != '/' && sck.Peek() != '(')
+                {
+                    cal = sck.Pop() + cal;
+                    if (!sck.Any()) break;/////???
+                }
+                result = double.Parse(cal);
+                foreach (char j in Math.Pow(result,num).ToString())
+                    sck.Push(j);
+            }
+            else if (sck.Peek() == '√')
+            {
+                sck.Pop();
+                foreach (char j in Math.Sqrt(num).ToString())
+                    sck.Push(j);
+            }
+            else if (sck.Peek() == 's')
+            {
+                sck.Pop(); sck.Pop(); sck.Pop();
+                foreach (char j in Math.Cos(num).ToString())
+                    sck.Push(j);
+            }
+            else
+            {
+                sck.Pop();
+                if (sck.Peek() == 'i')
+                {
+                    sck.Pop(); sck.Pop();
+                    foreach (char j in Math.Sin(num).ToString())
+                        sck.Push(j);
+                }
+                else if (sck.Peek() == 'a')
+                {
+                    sck.Pop(); sck.Pop();
+                    foreach (char j in Math.Tan(num).ToString())
+                        sck.Push(j);
+                }
+                else
+                {
+                    sck.Pop();
+                    foreach (char j in Math.Log(num).ToString())
+                        sck.Push(j);
+                }
+            }
+        }
+
+        public static double SimpleOp(string s)
+        {
+            Stack<char> stack = new Stack<char>();
+            string copy = s;           
+            double result = 0;
+            int len = copy.Length;
+            if (s.Contains('^') || s.Contains('!'))
+            {
+                //while (true)
+                //{     
+                string sty = "";
+                for(int i = 0; i < len; i++)
+                    {
+                        string tem = "";
+                        if (!copy[i].Equals('^') && !copy[i].Equals('!'))
+                        {
+                            stack.Push(copy[i]);
+                        }
+                        else if(copy[i].Equals('^'))
+                        {
+                            while (stack.Peek() != '+' && stack.Peek() != '-' && stack.Peek() != '*' && stack.Peek() != '/')
+                            {
+                                tem = stack.Pop() + tem;
+                                if (!stack.Any()) break;
+                            }
+                            double num = Math.Pow(double.Parse(tem), 2);
+                            foreach(char j in num.ToString())
+                                stack.Push(j);
+                            i = i + 1;
+                            continue;
+                        }
+                        else if(copy[i].Equals('!'))
+                        {
+                            while (stack.Peek() != '+' && stack.Peek() != '-' && stack.Peek() != '*' && stack.Peek() != '/')
+                            {
+                                tem = stack.Pop() + tem;
+                                if (!stack.Any()) break;
+                            }
+                            int Int = int.Parse(tem);
+                            int temp = 1;//作为阶乘的临时变量
+                            for (int k = 1; k <= Int; k++)
+                                temp *= k;
+                            foreach (char m in temp.ToString())
+                                stack.Push(m);                            
+                            continue;
+                        }
+                    }
+                //}
+                while (stack.Any())
+                    sty = stack.Pop() + sty;
+                DataTable table = new DataTable();
+                result = double.Parse(table.Compute(sty, "").ToString());
+            }
+            else
+            {
+                if (!s.Any())  //3.22添加，防止直接点击=错误
+                    return 0;
+                else
+                {
+                    DataTable table = new DataTable();
+                    result = double.Parse(table.Compute(copy, "").ToString());
+                }
+                               
+            }
+              return result;
+        }
+
+        public static bool IsNumberOrFormula(string s)
         {
             if (string.IsNullOrWhiteSpace(s)) return false;
-            const string pattern = "^[0-9]*$";
-            Regex rx = new Regex(pattern);
+            const string patternfloat = "^[0-9]+(.[0-9]+)?$";
+            Regex rx = new Regex(patternfloat);
 
-            return rx.IsMatch(s);
+            const string patternint = "^[0-9]+$";
+            Regex rx2 = new Regex(patternint);
+
+            const string patternfo = "[+-*/]";
+            Regex rx3 = new Regex(patternfo);
+
+            return rx.IsMatch(s) || rx2.IsMatch(s) || rx3.IsMatch(s);
         }
 
-    public mainwindow()
+        /*public bool IsNumber(string str)
+        {
+            char[] ch = new char[str.Length];
+            ch = str.ToCharArray();
+            int len = str.Length;
+            for (int i = 0; i<len;i++)    {
+                if (ch[i] < 46 || ch[i] > 57 || ch[i] == 47)
+                    return false;
+                else if (str.Equals(')')) ?
+            }
+            return true;
+        }*/
+
+        public mainwindow()
         {
             InitializeComponent();
         }
@@ -178,12 +372,12 @@ namespace WindowsFormsApplication1
 
         private void deg_Click(object sender, EventArgs e)
         {
-            string s = input.Text;
+            string ans = output.Text;
+            mainwindow.ans = ans;
+            input.Text = "Ans";
             int idx = input.SelectionStart;
-            s = s.Insert(idx, "Ans");
 
-            input.Text = s;
-            input.SelectionStart = idx + 3;
+            input.SelectionStart = 3;
             input.Focus();
         }
 
@@ -379,22 +573,44 @@ namespace WindowsFormsApplication1
             }
 
         private void equal1_Click(object sender, EventArgs e)
-        {
-            Stack<string> value = new Stack<string>();            
+        {          
             string s = input.Text;
             s = s.Replace('×','*');
             s = s.Replace('÷','/');
-            output.Text = calculate(s);
-            foreach(char index in s)
+            s = s.Replace("Ans", mainwindow.ans);
+            s = Calculate(s).ToString();
+            output.Text = s;
+
+            /*while (s.IndexOf('(')!=-1)
             {
-                if (index.Equals(')')) {
+                int len = s.Length;
+                string str = "";
+                for (int i = 0; i< len; i++) {
+                    
+                    if (s[i].Equals(')'))
+                    {
+                        for (int j = i-1; j >= 0; j--)
+                        {
+                            if (!s[j].Equals('('))
+                            {
+                                str = s[j] + str;
+                            }
+                            else break; 
+                        }
+                    }
 
-                }else {
-                    value.Push(index.ToString());
                 }
-                
+                string newstr = calculate(str);
+                str = "(" + str + ")";
+                s.Replace(str, newstr);
+                break;
             }
-
+            s = calculate(s);
+            output.Text = s;*/
+            /*string s = input.Text;
+            s = s.Replace('×', '*');
+            s = s.Replace('÷', '/');
+            output.Text = Calculate(s).ToString();*/
         }
 
         private void pi_Click(object sender, EventArgs e)
@@ -479,10 +695,10 @@ namespace WindowsFormsApplication1
         {
             string s = input.Text;
             int idx = input.SelectionStart;
-            s = s.Insert(idx, "cos(");
+            s = s.Insert(idx, "^()");
 
             input.Text = s;
-            input.SelectionStart = idx + 1;
+            input.SelectionStart = idx + 2;
             input.Focus();
         }
 
@@ -522,6 +738,91 @@ namespace WindowsFormsApplication1
         private void output_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void equation_Click(object sender, EventArgs e)
+        {
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            if (eq == null || eq.IsDisposed)
+                eq = new equation(this);
+            if (!eq.Created)
+            {
+                eq.Show();
+                eq.Activate();
+            }
+
+        }
+
+        private void transform_Click(object sender, EventArgs e)//暂无考虑无限循环小数
+            //和(0.不循环数+循环数)
+        {
+            if (!output.Text.Any())
+                output.Text = "";
+            else
+            {
+                double outtext = double.Parse(output.Text);
+                double intnum = Math.Floor(outtext);
+                double point = outtext - intnum;
+                int numerator = 0;
+                int denominator = 0;
+                if (output.Text.IndexOf('.') == -1)
+                    output.Text = output.Text;
+                string s = output.Text.Substring(output.Text.IndexOf('.'));
+                int len = s.Length;
+
+                denominator = (int)Math.Pow(10, len);
+                numerator = (int)(Math.Pow(10, len) * point);
+
+                int maxdivisor = gcd(numerator, denominator);
+
+                output.Text = "";
+
+                if ((int)(outtext - intnum) == 0)
+                {
+                    output.Text = (numerator / maxdivisor).ToString()
+                    + "/" + (denominator / maxdivisor).ToString();
+                }
+                else
+                {
+                    output.Text = (outtext - intnum).ToString() + "+" + (numerator / maxdivisor).ToString()
+                    + "/" + (denominator / maxdivisor).ToString();
+                }
+            }
+            
+        }
+        private int gcd(int numerator, int denominator)
+        {
+            int temp = 0;
+            for( temp = denominator % numerator; temp != 0;temp = denominator % numerator)
+            {
+                denominator = numerator;
+                numerator = temp;
+            }
+            return numerator;
+        }
+
+        private void table_Click(object sender, EventArgs e)
+        {
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            if (tb == null || tb.IsDisposed)
+                tb = new table(this);
+            if (!tb.Created)
+            {
+                tb.Show();
+                tb.Activate();
+            }
+        }
+
+        private void gPAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            if (gpa == null || gpa.IsDisposed)
+                gpa = new GPAmainwindow(this);
+            if (!gpa.Created)
+            {
+                gpa.Show();
+                gpa.Activate();
+            }
         }
     }
 }

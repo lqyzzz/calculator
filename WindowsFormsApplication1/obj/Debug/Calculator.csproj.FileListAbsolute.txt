@@ -1,0 +1,17 @@
+D:\calculator\WindowsFormsApplication1\bin\Debug\userinfo.mdf
+D:\calculator\WindowsFormsApplication1\bin\Debug\userinfo_log.ldf
+D:\calculator\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+D:\calculator\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+D:\calculator\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.equation.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.mainwindow.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.table.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\Calculator.csproj.GenerateResource.Cache
+D:\calculator\WindowsFormsApplication1\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+D:\calculator\WindowsFormsApplication1\obj\Debug\Calculator.csprojResolveAssemblyReference.cache
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.GPAmainwindow.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.ID.resources
+D:\calculator\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Userinfo.resources

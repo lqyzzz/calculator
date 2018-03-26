@@ -20,3 +20,8 @@ D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsAppli
 D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
 D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.mainwindow.resources
 D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form3.resources
+D:\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\userinfo.mdf
+D:\WindowsFormsApplication1\WindowsFormsApplication1\bin\Debug\userinfo_log.ldf
+D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.equation.resources
+D:\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.table.resources

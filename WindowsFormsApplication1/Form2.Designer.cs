@@ -39,6 +39,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.AllGPA = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.NewGPA = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.newXuefen = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // UserName
@@ -49,6 +56,7 @@
             this.UserName.Size = new System.Drawing.Size(47, 15);
             this.UserName.TabIndex = 0;
             this.UserName.Text = "YOUZI";
+            //this.UserName.Click += new System.EventHandler(this.UserName_Click);
             // 
             // label1
             // 
@@ -144,11 +152,87 @@
             this.AllGPA.Text = "成绩记录";
             this.AllGPA.Click += new System.EventHandler(this.label10_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(140, 340);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "YES";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(259, 339);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "NO";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(35, 344);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(82, 15);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "是否保存？";
+            this.label10.Click += new System.EventHandler(this.label10_Click_1);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(42, 303);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 15);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "现GPA:";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // NewGPA
+            // 
+            this.NewGPA.AutoSize = true;
+            this.NewGPA.Location = new System.Drawing.Point(105, 303);
+            this.NewGPA.Name = "NewGPA";
+            this.NewGPA.Size = new System.Drawing.Size(63, 15);
+            this.NewGPA.TabIndex = 15;
+            this.NewGPA.Text = "label12";
+            this.NewGPA.Click += new System.EventHandler(this.NewGPA_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(174, 303);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(67, 15);
+            this.label13.TabIndex = 16;
+            this.label13.Text = "现学分：";
+            // 
+            // newXuefen
+            // 
+            this.newXuefen.AutoSize = true;
+            this.newXuefen.Location = new System.Drawing.Point(256, 303);
+            this.newXuefen.Name = "newXuefen";
+            this.newXuefen.Size = new System.Drawing.Size(63, 15);
+            this.newXuefen.TabIndex = 17;
+            this.newXuefen.Text = "label14";
+            this.newXuefen.Click += new System.EventHandler(this.label14_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 401);
+            this.Controls.Add(this.newXuefen);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.NewGPA);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.AllGPA);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -170,7 +254,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label UserName;
+        public System.Windows.Forms.Label UserName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -181,5 +265,12 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         public System.Windows.Forms.Label AllGPA;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.Label NewGPA;
+        private System.Windows.Forms.Label label13;
+        public  System.Windows.Forms.Label newXuefen;
     }
 }
